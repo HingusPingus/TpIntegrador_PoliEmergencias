@@ -202,6 +202,7 @@ CREATE TABLE `Medico` (
   `apellido` varchar(45) NOT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `Especialidad_IdEspecialidad` int NOT NULL,
+  `imagen` blob,
   PRIMARY KEY (`DNI`),
   KEY `Especialidad_IdEspecialidad` (`Especialidad_IdEspecialidad`),
   CONSTRAINT `Medico_ibfk_1` FOREIGN KEY (`Especialidad_IdEspecialidad`) REFERENCES `Especialidad` (`IdEspecialidad`)
@@ -415,4 +416,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-10-17 11:51:54
+-- Dump completed on 2025-10-17 15:35:50
