@@ -7,8 +7,11 @@ import java.util.List;
 @Table(name = "hospital")
 public class Sede {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_hospital")
     private Long id;
+    @Column(name = "nombre")
     private String nombre;
+    @Column(name="direccion")
     private String direccion;
 
     @ManyToMany
@@ -17,5 +20,54 @@ public class Sede {
             inverseJoinColumns = @JoinColumn(name = "usuario_id_usuario"))
     private List<Doctor> hospitales;
 
-    // getters/setters
+    @OneToMany(mappedBy = "sede")
+    private List<Turno> turnos;
+
+    public Sede(Long id, String nombre, String direccion, List<Doctor> hospitales, List<Turno> turnos) {
+        this.id = id;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.hospitales = hospitales;
+        this.turnos = turnos;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public List<Doctor> getHospitales() {
+        return hospitales;
+    }
+
+    public void setHospitales(List<Doctor> hospitales) {
+        this.hospitales = hospitales;
+    }
+
+    public List<Turno> getTurnos() {
+        return turnos;
+    }
+
+    public void setTurnos(List<Turno> turnos) {
+        this.turnos = turnos;
+    }
 }

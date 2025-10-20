@@ -8,9 +8,9 @@ import java.util.List;
 @Table(name = "medico")
 public class Doctor {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="usuario_id_usuario")
     private Long id;
-    private String nombre;
-
+    @Column(name = "telefono")
     private int telefono;
 
 
@@ -33,5 +33,10 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor")
     private List<Turno> turnos;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "usuario_id_usuario")
+    private User user;
 
 }

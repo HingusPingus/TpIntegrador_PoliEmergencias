@@ -1,11 +1,8 @@
 package com.poliemergencias.demo.model;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Table;
-    @Entity
+import jakarta.persistence.*;
+import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
+
+@Entity
     @Table(name="usuario")
 public class User {
 
@@ -48,4 +45,11 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Paciente paciente;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Doctor medico;
 }

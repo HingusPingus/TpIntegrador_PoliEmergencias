@@ -8,14 +8,9 @@ import java.util.List;
 @Table(name = "cliente")
 public class Paciente {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "usuario_id_usuario")
     private Long id;
 
-    private String nombre;
-    private String apellido;
-    private String dni;
-    private LocalDate fechaNacimiento;
-    private String telefono;
-    private String email;
 
     @ManyToOne
     @JoinColumn(name = "id_obra_social")
@@ -28,5 +23,45 @@ public class Paciente {
     // getters y setters
     public Paciente(){}
 
-    // constructores, getters y setters...
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "usuario_id_usuario")
+    private User user;
+
+    public Paciente(User user, Long id, long idObraSocial) {
+        this.user = user;
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ObraSocial getObraSocial() {
+        return obraSocial;
+    }
+
+    public void setObraSocial(ObraSocial obraSocial) {
+        this.obraSocial = obraSocial;
+    }
+
+    public List<Turno> getTurnos() {
+        return turnos;
+    }
+
+    public void setTurnos(List<Turno> turnos) {
+        this.turnos = turnos;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
