@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
     @Entity
+    @Table(name="usuario")
 public class User {
 
 
