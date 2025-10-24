@@ -31,7 +31,7 @@ USE `turno_system` ;
 -- Table `turno_system`.`obra_social`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`obra_social` (
-  `id_obra_social` INT NOT NULL,
+  `id_obra_social` INT NOT NULL auto_increment,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_obra_social`))
 ENGINE = InnoDB
@@ -43,7 +43,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `turno_system`.`usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`usuario` (
-  `id_usuario` INT NOT NULL,
+  `id_usuario` INT NOT NULL auto_increment,
   `nombre` VARCHAR(45) NULL DEFAULT NULL,
   `clave` VARCHAR(45) NULL DEFAULT NULL,
   `rol` VARCHAR(45) NULL DEFAULT NULL,
@@ -77,7 +77,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `turno_system`.`especialidad`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`especialidad` (
-  `id_especialidad` INT NOT NULL,
+  `id_especialidad` INT NOT NULL auto_increment,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_especialidad`))
 ENGINE = InnoDB
@@ -111,7 +111,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `turno_system`.`chat`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`chat` (
-  `id_chat` INT NOT NULL,
+  `id_chat` INT NOT NULL auto_increment,
   `cliente_usuario_id_usuario` INT NOT NULL,
   `medico_usuario_id_usuario` INT NOT NULL,
   PRIMARY KEY (`id_chat`),
@@ -132,7 +132,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `turno_system`.`estado`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`estado` (
-  `id_estado` INT NOT NULL,
+  `id_estado` INT NOT NULL auto_increment,
   `nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_estado`))
 ENGINE = InnoDB
@@ -144,7 +144,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `turno_system`.`hospital`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`hospital` (
-  `id_hospital` INT NOT NULL,
+  `id_hospital` INT NOT NULL auto_increment,
   `nombre` VARCHAR(45) NOT NULL,
   `direccion` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id_hospital`))
@@ -157,7 +157,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `turno_system`.`turno`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`turno` (
-  `id_turno` INT NOT NULL,
+  `id_turno` INT NOT NULL auto_increment,
   `fecha_pedido` DATE NOT NULL,
   `fecha_turno` DATE NOT NULL,
   `horario` TIME NOT NULL,
@@ -207,7 +207,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `turno_system`.`tipo_estudio`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`tipo_estudio` (
-  `id_tipo_estudio` INT NOT NULL,
+  `id_tipo_estudio` INT NOT NULL auto_increment,
   `nombre` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`id_tipo_estudio`))
 ENGINE = InnoDB
@@ -256,7 +256,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `turno_system`.`imagen`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`imagen` (
-  `id_imagen` INT NOT NULL,
+  `id_imagen` INT NOT NULL auto_increment,
   `imagen` BLOB NULL DEFAULT NULL,
   `estudio_id_turno` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id_imagen`),
@@ -313,7 +313,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `turno_system`.`mensaje`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `turno_system`.`mensaje` (
-  `id_mensaje` INT NOT NULL,
+  `id_mensaje` INT NOT NULL auto_increment,
   `contenido` TEXT NULL DEFAULT NULL,
   `usuario_id_usuario` INT NOT NULL,
   `chat_id_chat` INT NOT NULL,
