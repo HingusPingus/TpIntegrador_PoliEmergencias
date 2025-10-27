@@ -10,17 +10,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "nombre")
     private String name;
+    @Column(name = "clave")
     private String password;
+    @Column(name = "rol")
     private String role;
-
-
+    @Column(name = "contacto_emergencia")
+    private int contactoEmergencia;
     public User(String name, String password, String role) {
         this.name = name;
         this.password = password;
         this.role = role;
     }
+
+    public User() {}
 
     public String getName() {
         return name;
@@ -52,4 +56,36 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Doctor medico;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    public Doctor getMedico() {
+        return medico;
+    }
+
+    public void setMedico(Doctor medico) {
+        this.medico = medico;
+    }
+
+    public int getContactoEmergencia() {
+        return contactoEmergencia;
+    }
+
+    public void setContactoEmergencia(int contactoEmergencia) {
+        this.contactoEmergencia = contactoEmergencia;
+    }
 }

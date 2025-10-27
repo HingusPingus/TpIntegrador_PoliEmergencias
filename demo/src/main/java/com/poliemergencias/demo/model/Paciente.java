@@ -20,6 +20,7 @@ public class Paciente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Turno> turnos;
 
+
     // getters y setters
     public Paciente(){}
 
@@ -28,10 +29,14 @@ public class Paciente {
     @JoinColumn(name = "usuario_id_usuario")
     private User user;
 
-    public Paciente(User user, Long id, long idObraSocial) {
-        this.user = user;
+    public Paciente(Long id, ObraSocial obraSocial, List<Turno> turnos, User user) {
         this.id = id;
+        this.obraSocial = obraSocial;
+        this.turnos = turnos;
+        this.user = user;
     }
+
+
 
     public Long getId() {
         return id;

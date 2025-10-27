@@ -1,10 +1,10 @@
 package com.poliemergencias.demo.dto;
 
-public class UserDto {
+public class UserDTO {
     private String name;
     private String role;
 
-    public UserDto() {}
+    public UserDTO() {}
 
     public String getName() {
         return name;
@@ -22,7 +22,7 @@ public class UserDto {
         this.role = role;
     }
 
-    public UserDto(String name, String role) {
+    public UserDTO(String name, String role) {
         this.name = name;
         this.role = role;
     }
