@@ -19,22 +19,12 @@ public class PacienteService {
     @Autowired
     private ObraSocialRepository obraSocialRepository;
 
+    private UserService userService;
+
     @Transactional
     public Paciente registerPaciente(PacienteRegistrationDTO registrationDTO) {
         // Check if username already exists
-        if (userRepository.findByName(registrationDTO.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
-        }
-
-        // Create User entity
-        User user = new User();
-        user.setName(registrationDTO.getUsername());
-        user.setPassword(registrationDTO.getPassword()); // In production, encrypt this!
-        user.setRole(registrationDTO.getRole());
-        user.setContactoEmergencia(registrationDTO.getContactoEmergencia());
-
-        // Save User first
-        User savedUser = userRepository.save(user);
+        User savedUser=userService.registerUser(registrationDTO);
 
         // Create Paciente entity
         Paciente paciente = new Paciente();

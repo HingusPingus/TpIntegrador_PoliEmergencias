@@ -23,6 +23,9 @@ public class Especialidad {
         this.id = id;
     }
 
+    public Especialidad() {
+    }
+
     public Long getId() {
         return id;
     }

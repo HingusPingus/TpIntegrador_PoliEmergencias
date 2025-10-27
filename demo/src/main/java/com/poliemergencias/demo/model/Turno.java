@@ -28,6 +28,14 @@ public class Turno {
     @ManyToOne
     private Doctor doctor;
 
+    @OneToOne(mappedBy = "turno", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Estudio estudio;
+
+    @OneToOne(mappedBy = "turno", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Clinica clinica;
+
     @Enumerated(EnumType.STRING)
     private EstadoTurno estado; // RESERVADO, CANCELADO, FINALIZADO
 

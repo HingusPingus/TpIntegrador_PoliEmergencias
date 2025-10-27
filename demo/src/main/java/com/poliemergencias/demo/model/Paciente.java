@@ -13,7 +13,7 @@ public class Paciente {
 
 
     @ManyToOne
-    @JoinColumn(name = "id_obra_social")
+    @JoinColumn(name = "obra_social_id_obra_social")
     private ObraSocial obraSocial;
 
 

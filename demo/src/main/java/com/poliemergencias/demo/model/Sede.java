@@ -23,8 +23,10 @@ public class Sede {
     @OneToMany(mappedBy = "sede")
     private List<Turno> turnos;
 
-    public Sede(Long id, String nombre, String direccion, List<Doctor> hospitales, List<Turno> turnos) {
-        this.id = id;
+    public Sede() {
+    }
+
+    public Sede(String nombre, String direccion, List<Doctor> hospitales, List<Turno> turnos) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.hospitales = hospitales;

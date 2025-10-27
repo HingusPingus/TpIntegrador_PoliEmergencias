@@ -12,10 +12,11 @@ public class Doctor {
     private Long id;
     @Column(name = "telefono")
     private int telefono;
-
+    @Column(name="imagen")
+    private String imagen;
 
     @ManyToOne
-    @JoinColumn(name = "especialidad_id")
+    @JoinColumn(name = "especialidad_id_especialidad")
     private Especialidad especialidades;
 
 
@@ -39,4 +40,68 @@ public class Doctor {
     @JoinColumn(name = "usuario_id_usuario")
     private User user;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
+    }
+
+    public Especialidad getEspecialidades() {
+        return especialidades;
+    }
+
+    public void setEspecialidades(Especialidad especialidades) {
+        this.especialidades = especialidades;
+    }
+
+    public Sede[] getHospitales() {
+        return hospitales;
+    }
+
+    public void setHospitales(Sede[] hospitales) {
+        this.hospitales = hospitales;
+    }
+
+    public Set<ObraSocial> getObrasSocialesAtendidas() {
+        return obrasSocialesAtendidas;
+    }
+
+    public void setObrasSocialesAtendidas(Set<ObraSocial> obrasSocialesAtendidas) {
+        this.obrasSocialesAtendidas = obrasSocialesAtendidas;
+    }
+
+    public List<Turno> getTurnos() {
+        return turnos;
+    }
+
+    public void setTurnos(List<Turno> turnos) {
+        this.turnos = turnos;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 }
