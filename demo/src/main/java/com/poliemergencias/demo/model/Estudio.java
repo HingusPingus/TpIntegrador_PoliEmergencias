@@ -22,6 +22,9 @@ public class Estudio {
     @JoinColumn(name = "id_turno")
     private Turno turno;
 
+    public Estudio() {
+    }
+
     public Estudio(Long id, String informe, Long tipo_estudio_id, TipoEstudio tipo_estudio, Turno turno) {
         this.id = id;
         this.informe = informe;

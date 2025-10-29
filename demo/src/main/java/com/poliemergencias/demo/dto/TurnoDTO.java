@@ -9,17 +9,18 @@ public class TurnoDTO {
     private Long sede;
     private Long  id_doctor;
     private boolean clinica;
-
+    private Long idEstudio;
 
 
     public TurnoDTO() {}
 
-    public TurnoDTO( LocalDate fecha, LocalTime horario, Long id_doctor, Long sede) {
+    public TurnoDTO( LocalDate fecha, LocalTime horario, Long id_doctor, Long sede,Long idEstudio) {
 
         this.fecha = fecha;
         this.horario = horario;
         this.sede=sede;
         this.id_doctor=id_doctor;
+        this.idEstudio=idEstudio;
     }
 
 
@@ -47,8 +48,6 @@ public class TurnoDTO {
         this.clinica = clinica;
     }
 
-    public LocalDate getFechaTurno() { return fecha; }
-    public void setFechaTurno(LocalDate fechaTurno) { this.fecha = fechaTurno; }
 
     public LocalTime getHorario() { return horario; }
     public void setHorario(LocalTime horario) { this.horario = horario; }
@@ -62,4 +61,11 @@ public class TurnoDTO {
     public Long getDoctor() { return id_doctor; }
     public void setDoctor(Long doctor) { this.id_doctor = doctor; }
 
+    public Long getIdEstudio() {
+        return idEstudio;
+    }
+
+    public void setIdEstudio(Long idEstudio) {
+        this.idEstudio = idEstudio;
+    }
 }

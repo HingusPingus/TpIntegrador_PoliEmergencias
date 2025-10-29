@@ -17,6 +17,9 @@ public class Clinica {
     @JoinColumn(name = "id_turno")
     private Turno turno;
 
+    public Clinica() {
+    }
+
     public Clinica(Long id, String info, Turno turno) {
         this.id = id;
         this.info = info;

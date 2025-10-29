@@ -20,6 +20,14 @@ public class Turno {
     private LocalTime horario;
     @Column(name="duracion")
     private LocalTime duracion;
+    @Column(name = "medico_usuario_id_usuario")
+    private Long idDoctor;
+    @Column(name = "hospital_id_hospital")
+    private Long idSede;
+    @Column(name = "estado_id_estado")
+    private Long idEstado;
+    @Column(name = "cliente_usuario_id_usuario")
+    private Long idCliente;
     @ManyToOne
     private Sede sede;
     @ManyToOne
@@ -128,5 +136,53 @@ public class Turno {
 
     public void setEstado(EstadoTurno estado) {
         this.estado = estado;
+    }
+
+    public Long getIdDoctor() {
+        return idDoctor;
+    }
+
+    public void setIdDoctor(Long idDoctor) {
+        this.idDoctor = idDoctor;
+    }
+
+    public Long getIdSede() {
+        return idSede;
+    }
+
+    public void setIdSede(Long idSede) {
+        this.idSede = idSede;
+    }
+
+    public Long getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(Long idEstado) {
+        this.idEstado = idEstado;
+    }
+
+    public Long getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public Estudio getEstudio() {
+        return estudio;
+    }
+
+    public void setEstudio(Estudio estudio) {
+        this.estudio = estudio;
+    }
+
+    public Clinica getClinica() {
+        return clinica;
+    }
+
+    public void setClinica(Clinica clinica) {
+        this.clinica = clinica;
     }
 }
