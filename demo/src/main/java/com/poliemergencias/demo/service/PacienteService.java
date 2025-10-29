@@ -18,7 +18,7 @@ public class PacienteService {
 
     @Autowired
     private ObraSocialRepository obraSocialRepository;
-
+    @Autowired
     private UserService userService;
 
     @Transactional

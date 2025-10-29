@@ -1,9 +1,11 @@
 package com.poliemergencias.demo.dto;
 
+import io.micrometer.common.lang.NonNull;
+
 public class RegistrationDTO {
     private String username;
     private String password;
-    private String role; // Default role
+    private String role;
     private int contactoEmergencia;
 
     public RegistrationDTO(String username, String password, String role, int contactoEmergencia) {

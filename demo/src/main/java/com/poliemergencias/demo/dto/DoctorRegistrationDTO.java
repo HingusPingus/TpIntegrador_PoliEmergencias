@@ -10,10 +10,12 @@ public class DoctorRegistrationDTO extends RegistrationDTO{
     }
 
     public DoctorRegistrationDTO(String username, String password, int contactoEmergencia, Long idEspecialidad, int telefono, String imagen) {
-        super(username,password,"DOCTOR",contactoEmergencia);
+        String rol="DOCTOR";
+        super(username,password,rol,contactoEmergencia);
         this.idEspecialidad = idEspecialidad;
         this.telefono = telefono;
         this.imagen = imagen;
+        this.setRole("DOCTOR");
     }
 
 

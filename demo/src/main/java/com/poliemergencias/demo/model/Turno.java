@@ -55,6 +55,9 @@ public class Turno {
         this.estado = estado;
     }
 
+    public Turno() {
+    }
+
     public Long getId() {
         return id;
     }

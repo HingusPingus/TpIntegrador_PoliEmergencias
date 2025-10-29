@@ -23,6 +23,7 @@ public class DoctorService {
 
     @Transactional
     public Doctor registerDoctor(DoctorRegistrationDTO registrationDTO) {
+
         User savedUser = userService.registerUser(registrationDTO);
 
         Doctor doctor = new Doctor();

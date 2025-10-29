@@ -7,8 +7,10 @@ public class PacienteRegistrationDTO extends RegistrationDTO{
     public PacienteRegistrationDTO() {}
 
     public PacienteRegistrationDTO(String username, String password, Long obraSocialId,int contactoEmergencia) {
-        super(username,password,"PACIENTE",contactoEmergencia);
+        String rol="PACIENTE";
+        super(username,password,rol,contactoEmergencia);
         this.obraSocialId = obraSocialId;
+        this.setRole("PACIENTE");
 
     }
 
