@@ -30,8 +30,7 @@ public class Turno {
     private Long idCliente;
     @ManyToOne
     private Sede sede;
-    @ManyToOne
-    private Paciente cliente;
+
 
     @ManyToOne
     private Doctor doctor;
@@ -51,14 +50,13 @@ public class Turno {
     // getters/setters
     public enum EstadoTurno { RESERVADO, CANCELADO, FINALIZADO }
 
-    public Turno(Long id, LocalDate fechaPedido, LocalDate fechaTurno, LocalTime horario, LocalTime duracion, Sede sede, Paciente cliente, Doctor doctor, Especialidad especialidad, EstadoTurno estado, String indicacionesProfesional) {
+    public Turno(Long id, LocalDate fechaPedido, LocalDate fechaTurno, LocalTime horario, LocalTime duracion, Sede sede, Doctor doctor, Especialidad especialidad, EstadoTurno estado, String indicacionesProfesional) {
         this.id = id;
         this.fechaPedido = fechaPedido;
         this.fechaTurno = fechaTurno;
         this.horario = horario;
         this.duracion = duracion;
         this.sede = sede;
-        this.cliente = cliente;
         this.doctor = doctor;
         this.estado = estado;
     }
@@ -114,13 +112,7 @@ public class Turno {
         this.sede = sede;
     }
 
-    public Paciente getCliente() {
-        return cliente;
-    }
 
-    public void setCliente(Paciente cliente) {
-        this.cliente = cliente;
-    }
 
     public Doctor getDoctor() {
         return doctor;

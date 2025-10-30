@@ -1,11 +1,11 @@
 package com.poliemergencias.demo.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class TurnoDTO {
-    private LocalDate fecha;
-    private LocalTime horario;
+    private LocalDateTime fecha;
     private Long sede;
     private Long  id_doctor;
     private boolean clinica;
@@ -14,21 +14,20 @@ public class TurnoDTO {
 
     public TurnoDTO() {}
 
-    public TurnoDTO( LocalDate fecha, LocalTime horario, Long id_doctor, Long sede,Long idEstudio) {
+    public TurnoDTO( LocalDateTime fecha, Long id_doctor, Long sede,Long idEstudio) {
 
         this.fecha = fecha;
-        this.horario = horario;
         this.sede=sede;
         this.id_doctor=id_doctor;
         this.idEstudio=idEstudio;
     }
 
 
-    public LocalDate getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
@@ -47,10 +46,6 @@ public class TurnoDTO {
     public void setClinica(boolean clinica) {
         this.clinica = clinica;
     }
-
-
-    public LocalTime getHorario() { return horario; }
-    public void setHorario(LocalTime horario) { this.horario = horario; }
 
 
 

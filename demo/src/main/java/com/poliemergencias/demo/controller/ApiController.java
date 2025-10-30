@@ -17,7 +17,7 @@ public class ApiController {
     @PostMapping("/usuarios")
     public ResponseEntity<?> registerPaciente(@RequestBody PacienteRegistrationDTO registrationDTO) {
         try {
-
+            registrationDTO.setRole("PACIENTE");
             Paciente paciente = pacienteService.registerPaciente(registrationDTO);
             return ResponseEntity.ok("Paciente registered successfully with ID: " + paciente.getId());
         } catch (RuntimeException e) {

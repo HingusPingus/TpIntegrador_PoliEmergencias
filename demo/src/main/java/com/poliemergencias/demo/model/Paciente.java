@@ -17,7 +17,7 @@ public class Paciente {
     private ObraSocial obraSocial;
 
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "idCliente", cascade = CascadeType.ALL)
     private List<Turno> turnos;
 
 
