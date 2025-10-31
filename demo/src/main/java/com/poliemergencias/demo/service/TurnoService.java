@@ -31,7 +31,7 @@ public class TurnoService {
     @Transactional
     public Turno cargarTurno(TurnoDTO turnoDTO, Long idUsuario){
         Turno turno=new Turno();
-        turno.setFechaTurno(turnoDTO.getFecha().toLocalDate());
+        turno.setFechaTurno(turnoDTO.getFecha());
         if(doctorRepository.existsById(turnoDTO.getId_doctor()))
             turno.setIdDoctor(turnoDTO.getId_doctor());
         else throw new RuntimeException("Ese doctor no existe");
@@ -43,7 +43,7 @@ public class TurnoService {
         else throw new RuntimeException("Ese usuario no existe");
         turno.setFechaPedido(LocalDate.now());
         turno.setIdEstado(1L);
-        turno.setHorario(turnoDTO.getFecha().toLocalTime());
+        turno.setHorario(turnoDTO.getHorario());
         Turno savedTurno=turnoRepository.save(turno);
         saveClinicaOrEstudio(turnoDTO,savedTurno);
         return savedTurno;

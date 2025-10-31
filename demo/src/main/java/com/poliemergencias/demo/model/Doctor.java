@@ -32,9 +32,6 @@ public class Doctor {
             inverseJoinColumns = @JoinColumn(name = "obra_social_id_obra_social"))
     private Set<ObraSocial> obrasSocialesAtendidas;
 
-    @OneToMany(mappedBy = "doctor")
-    private List<Turno> turnos;
-
     @OneToOne
     @MapsId
     @JoinColumn(name = "usuario_id_usuario")
@@ -81,13 +78,6 @@ public class Doctor {
         this.obrasSocialesAtendidas = obrasSocialesAtendidas;
     }
 
-    public List<Turno> getTurnos() {
-        return turnos;
-    }
-
-    public void setTurnos(List<Turno> turnos) {
-        this.turnos = turnos;
-    }
 
     public User getUser() {
         return user;

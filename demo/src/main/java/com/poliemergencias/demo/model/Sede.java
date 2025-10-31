@@ -20,17 +20,14 @@ public class Sede {
             inverseJoinColumns = @JoinColumn(name = "usuario_id_usuario"))
     private List<Doctor> hospitales;
 
-    @OneToMany(mappedBy = "sede")
-    private List<Turno> turnos;
 
     public Sede() {
     }
 
-    public Sede(String nombre, String direccion, List<Doctor> hospitales, List<Turno> turnos) {
+    public Sede(String nombre, String direccion, List<Doctor> hospitales) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.hospitales = hospitales;
-        this.turnos = turnos;
     }
 
     public Long getId() {
@@ -65,11 +62,4 @@ public class Sede {
         this.hospitales = hospitales;
     }
 
-    public List<Turno> getTurnos() {
-        return turnos;
-    }
-
-    public void setTurnos(List<Turno> turnos) {
-        this.turnos = turnos;
-    }
 }

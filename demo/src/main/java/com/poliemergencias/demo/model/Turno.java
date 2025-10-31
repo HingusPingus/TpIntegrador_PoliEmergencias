@@ -3,13 +3,13 @@ package com.poliemergencias.demo.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "turno")
 public class Turno {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_turno")
     private Long id;
     @Column(name = "fecha_pedido")
@@ -28,12 +28,7 @@ public class Turno {
     private Long idEstado;
     @Column(name = "cliente_usuario_id_usuario")
     private Long idCliente;
-    @ManyToOne
-    private Sede sede;
 
-
-    @ManyToOne
-    private Doctor doctor;
 
     @OneToOne(mappedBy = "turno", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -43,22 +38,15 @@ public class Turno {
     @PrimaryKeyJoinColumn
     private Clinica clinica;
 
-    @Enumerated(EnumType.STRING)
-    private EstadoTurno estado; // RESERVADO, CANCELADO, FINALIZADO
-
-
-    // getters/setters
-    public enum EstadoTurno { RESERVADO, CANCELADO, FINALIZADO }
-
-    public Turno(Long id, LocalDate fechaPedido, LocalDate fechaTurno, LocalTime horario, LocalTime duracion, Sede sede, Doctor doctor, Especialidad especialidad, EstadoTurno estado, String indicacionesProfesional) {
+    public Turno(Long id, LocalDate fechaPedido, LocalDate fechaTurno, LocalTime horario, LocalTime duracion,   Especialidad especialidad, String indicacionesProfesional) {
         this.id = id;
         this.fechaPedido = fechaPedido;
         this.fechaTurno = fechaTurno;
         this.horario = horario;
         this.duracion = duracion;
-        this.sede = sede;
-        this.doctor = doctor;
-        this.estado = estado;
+
+
+
     }
 
     public Turno() {
@@ -104,31 +92,7 @@ public class Turno {
         this.duracion = duracion;
     }
 
-    public Sede getSede() {
-        return sede;
-    }
 
-    public void setSede(Sede sede) {
-        this.sede = sede;
-    }
-
-
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public EstadoTurno getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoTurno estado) {
-        this.estado = estado;
-    }
 
     public Long getIdDoctor() {
         return idDoctor;

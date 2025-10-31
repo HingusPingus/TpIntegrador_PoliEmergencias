@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(name = "/api/turnos")
+@RequestMapping("/api/turnos")
 public class TurnoController {
     @Autowired
     private TurnoService turnoService;
