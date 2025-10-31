@@ -7,15 +7,20 @@ import com.poliemergencias.demo.model.ObraSocial;
 import com.poliemergencias.demo.model.User;
 import com.poliemergencias.demo.repository.DoctorRepository;
 import com.poliemergencias.demo.repository.EspecialidadRepository;
+import com.poliemergencias.demo.repository.ObraSocialRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DoctorService {
     @Autowired
     private DoctorRepository doctorRepository;
-
+    @Autowired
+    private ObraSocialRepository obraSocialRepository;
     @Autowired
     private EspecialidadRepository especialidadRepository;
     @Autowired
@@ -37,5 +42,12 @@ public class DoctorService {
             doctor.setEspecialidades(especialidad);
         }
         return doctorRepository.save(doctor);
+    }
+
+    @Transactional
+    public List<Doctor> listByObraSocial(Long obraSocialId){
+
+        return doctorRepository.findByObrasSocialesAtendidasId(obraSocialId);
+
     }
 }

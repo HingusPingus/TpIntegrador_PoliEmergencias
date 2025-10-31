@@ -14,7 +14,7 @@ public class TipoEstudio {
     @Column(name="nombre")
     private String nombre;
 
-    @OneToMany(mappedBy = "tipo_estudio")
+    @OneToMany(mappedBy = "tipo_estudio_id")
     private List<Estudio> estudios;
 
     public TipoEstudio(Long id, String nombre, List<Estudio> estudios) {

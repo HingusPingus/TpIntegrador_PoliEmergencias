@@ -1,5 +1,6 @@
 package com.poliemergencias.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Set;
 import java.util.List;
@@ -22,18 +23,19 @@ public class Doctor {
 
     @ManyToMany
     @JoinTable(name = "medico_has_hospital",
-            joinColumns = @JoinColumn(name = "usuario_id_usuario"),
+            joinColumns = @JoinColumn(name = "medico_usuario_id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "hospital_id_hospital"))
-    private Sede[] hospitales;
+    private Set<Sede> hospitales;
 
     @ManyToMany
-    @JoinTable(name = "doctor_obra_social",
-            joinColumns = @JoinColumn(name = "usuario_id_usuario"),
+    @JoinTable(name = "medico_has_obra_social",
+            joinColumns = @JoinColumn(name = "medico_usuario_id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "obra_social_id_obra_social"))
     private Set<ObraSocial> obrasSocialesAtendidas;
 
     @OneToOne
     @MapsId
+    @JsonIgnore
     @JoinColumn(name = "usuario_id_usuario")
     private User user;
 
@@ -62,11 +64,11 @@ public class Doctor {
         this.especialidades = especialidades;
     }
 
-    public Sede[] getHospitales() {
+    public Set<Sede> getHospitales() {
         return hospitales;
     }
 
-    public void setHospitales(Sede[] hospitales) {
+    public void setHospitales(Set<Sede> hospitales) {
         this.hospitales = hospitales;
     }
 

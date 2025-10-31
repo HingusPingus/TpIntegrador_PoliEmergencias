@@ -1,5 +1,6 @@
 package com.poliemergencias.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class Especialidad {
     private Long id;
     @Column(name="nombre")
     private String nombre;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "especialidades")
     private List<Doctor> doctores;
 

@@ -21,6 +21,9 @@ public class ObraSocial {
         this.pacientes = pacientes;
     }
 
+    public ObraSocial() {
+    }
+
     public Long getId() {
         return id;
     }

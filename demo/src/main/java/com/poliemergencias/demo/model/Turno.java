@@ -1,5 +1,6 @@
 package com.poliemergencias.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -28,7 +29,8 @@ public class Turno {
     private Long idEstado;
     @Column(name = "cliente_usuario_id_usuario")
     private Long idCliente;
-
+    @Column(name = "info")
+    private String info;
 
     @OneToOne(mappedBy = "turno", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -36,6 +38,8 @@ public class Turno {
 
     @OneToOne(mappedBy = "turno", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    @JsonIgnore
+    
     private Clinica clinica;
 
     public Turno(Long id, LocalDate fechaPedido, LocalDate fechaTurno, LocalTime horario, LocalTime duracion,   Especialidad especialidad, String indicacionesProfesional) {
@@ -50,6 +54,14 @@ public class Turno {
     }
 
     public Turno() {
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     public Long getId() {

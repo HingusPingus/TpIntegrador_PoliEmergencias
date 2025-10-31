@@ -9,39 +9,36 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "historia_medico")
 public class RegistroMedico {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cliente_usuario_id_usuario")
-    private Long id;
-    @Column(name="fecha_turno")
-    private LocalDate fechaTurno;
+    @EmbeddedId
+    private RegistroPK id;
     @Column(name = "info")
     private String info;
 
-    @ManyToOne
-    private Paciente paciente;
 
 
     public RegistroMedico(Long id, LocalDate fechaTurno, String info, Paciente paciente) {
-        this.id = id;
-        this.fechaTurno = fechaTurno;
+        this.id = new RegistroPK(id,fechaTurno);
         this.info = info;
-        this.paciente = paciente;
+    }
+
+    public RegistroMedico(){
+        id=new RegistroPK();
     }
 
     public Long getId() {
-        return id;
+        return id.getClienteId();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id.setClienteId(id);
     }
 
     public LocalDate getFechaTurno() {
-        return fechaTurno;
+        return id.getFecha();
     }
 
     public void setFechaTurno(LocalDate fechaTurno) {
-        this.fechaTurno = fechaTurno;
+        this.id.setFecha(fechaTurno);
     }
 
     public String getInfo() {
@@ -52,11 +49,5 @@ public class RegistroMedico {
         this.info = info;
     }
 
-    public Paciente getPaciente() {
-        return paciente;
-    }
 
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-    }
 }

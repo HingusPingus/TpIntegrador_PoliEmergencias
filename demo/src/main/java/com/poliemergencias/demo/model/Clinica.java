@@ -6,12 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "clinica")
 public class Clinica {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_turno")
     private Long id;
-    @Column(name="info")
-    private String info;
-
     @OneToOne
     @MapsId
     @JoinColumn(name = "id_turno")
@@ -22,7 +18,6 @@ public class Clinica {
 
     public Clinica(Long id, String info, Turno turno) {
         this.id = id;
-        this.info = info;
         this.turno = turno;
     }
 
@@ -32,14 +27,6 @@ public class Clinica {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
     }
 
     public Turno getTurno() {

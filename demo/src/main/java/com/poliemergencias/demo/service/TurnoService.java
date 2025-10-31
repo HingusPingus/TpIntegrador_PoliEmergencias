@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class TurnoService {
@@ -62,5 +63,8 @@ public class TurnoService {
             estudio.setTurno(savedTurno);
             estudioRepository.save(estudio);
         }
+    }
+    public List<Turno> buscarPorCliente(Long idCliente){
+        return turnoRepository.findByIdCliente(idCliente);
     }
 }
