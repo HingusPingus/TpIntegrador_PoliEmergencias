@@ -39,6 +39,8 @@ public class Doctor {
     @JoinColumn(name = "usuario_id_usuario")
     private User user;
 
+    @OneToMany(mappedBy = "idDoctor")
+    private List<Turno> turnos;
 
     public Long getId() {
         return id;
@@ -95,5 +97,13 @@ public class Doctor {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public List<Turno> getTurnos() {
+        return turnos;
+    }
+
+    public void setTurnos(List<Turno> turnos) {
+        this.turnos = turnos;
     }
 }

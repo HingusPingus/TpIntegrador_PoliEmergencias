@@ -46,7 +46,6 @@ public class DoctorService {
 
     @Transactional
     public List<Doctor> listByObraSocial(Long obraSocialId){
-
         return doctorRepository.findByObrasSocialesAtendidasId(obraSocialId);
 
     }

@@ -5,13 +5,16 @@ import com.poliemergencias.demo.model.User;
 import com.poliemergencias.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
+    @Transactional
     public User registerUser(RegistrationDTO registrationDTO){
         if (userRepository.findByName(registrationDTO.getUsername()).isPresent()) {
             throw new RuntimeException("Username already exists");
@@ -26,5 +29,16 @@ public class UserService {
 
         // Save User first
         return userRepository.save(user);
+    }
+
+    @Transactional
+    public int getEmergencia(Long idUsuario){
+        Optional<User> user= userRepository.findById(idUsuario);
+        if(user.isPresent()){
+            return user.get().getContactoEmergencia();
+        }
+        else {
+            throw new RuntimeException("Ese usuario no existe");
+        }
     }
 }

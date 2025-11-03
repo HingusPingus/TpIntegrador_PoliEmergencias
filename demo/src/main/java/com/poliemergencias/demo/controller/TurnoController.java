@@ -2,6 +2,7 @@ package com.poliemergencias.demo.controller;
 
 import com.poliemergencias.demo.dto.PacienteRegistrationDTO;
 import com.poliemergencias.demo.dto.TurnoDTO;
+import com.poliemergencias.demo.dto.TurnoFinDTO;
 import com.poliemergencias.demo.model.Paciente;
 import com.poliemergencias.demo.model.Turno;
 import com.poliemergencias.demo.service.TurnoService;
@@ -16,20 +17,20 @@ public class TurnoController {
     private TurnoService turnoService;
 
     @PostMapping("/usuarios")
-    public ResponseEntity<?> registerPaciente(@RequestBody TurnoDTO turnoDTO, @RequestParam Long idUsuario) {
+    public ResponseEntity<?> registerTurno(@RequestBody TurnoDTO turnoDTO, @RequestParam Long userId) {
         try {
-            Turno turno = turnoService.cargarTurno(turnoDTO, idUsuario);
+            Turno turno = turnoService.cargarTurno(turnoDTO, userId);
             return ResponseEntity.ok("Turno registered successfully with ID: " + turno.getId());
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-    @GetMapping("/asd")
-    public ResponseEntity<?> registerPacssiente() {
+    @PostMapping("/{id}/finalizar")
+    public ResponseEntity<?> finTurno(@RequestBody TurnoFinDTO turnoDTO, @RequestParam Long userId, @PathVariable Long id) {
         try {
-
-            return ResponseEntity.ok("Turno registered successfully with ID: " );
+            Turno turno = turnoService.finalizarTurno(turnoDTO, userId,id);
+            return ResponseEntity.ok("Turno finalized successfully with ID: " + turno.getId());
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
