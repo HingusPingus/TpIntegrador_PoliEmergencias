@@ -64,6 +64,7 @@ public class TurnoService {
             estudioRepository.save(estudio);
         }
     }
+    @Transactional
     public List<Turno> buscarPorCliente(Long idCliente){
         return turnoRepository.findByIdCliente(idCliente);
     }

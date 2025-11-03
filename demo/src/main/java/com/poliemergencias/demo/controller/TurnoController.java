@@ -26,7 +26,7 @@ public class TurnoController {
     }
 
     @GetMapping("/asd")
-    public ResponseEntity<?> registerPacssiente(@RequestBody TurnoDTO turnoDTO, @RequestParam Long idUsuario) {
+    public ResponseEntity<?> registerPacssiente() {
         try {
 
             return ResponseEntity.ok("Turno registered successfully with ID: " );

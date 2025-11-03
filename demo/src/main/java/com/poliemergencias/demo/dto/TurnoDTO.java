@@ -22,7 +22,8 @@ public class TurnoDTO {
         this.horario=LocalTime.parse(horario);
         this.sede=sede;
         this.id_doctor=id_doctor;
-        this.idEstudio=idEstudio;
+        this.idEstudio = idEstudio;
+
     }
 
 
@@ -43,6 +44,13 @@ public class TurnoDTO {
     }
 
     public boolean isClinica() {
+        if(idEstudio!=null) {
+            this.clinica=false;
+
+        }
+        else{
+            this.clinica=true;
+        }
         return clinica;
     }
 
