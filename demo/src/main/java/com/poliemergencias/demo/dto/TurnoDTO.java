@@ -12,6 +12,7 @@ public class TurnoDTO {
     private Long  id_doctor;
     private boolean clinica;
     private Long idEstudio;
+    private Long idEspecialidad;
 
 
     public TurnoDTO() {}
@@ -63,6 +64,9 @@ public class TurnoDTO {
     public Long getSede() { return sede; }
     public void setSede(Long  sede) { this.sede = sede; }
 
+    public Long getIdEspecialidad() {
+        return idEspecialidad;
+    }
 
     public Long getDoctor() { return id_doctor; }
     public void setDoctor(Long doctor) { this.id_doctor = doctor; }

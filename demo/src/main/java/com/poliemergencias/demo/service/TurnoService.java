@@ -87,6 +87,12 @@ public class TurnoService {
             }
 
         }
+        for (Doctor d : doctorRepository.findByEspecialidades_id(turnoDTO.getIdEspecialidad())) {
+            if(d.getId().equals(doctor.getId())){
+                return true;
+            }
+
+        }
         return false;
     }
 
