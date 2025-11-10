@@ -1,50 +1,51 @@
-
 delimiter //
-create trigger turno_solapado before insert on Turno for each row
+create trigger turno_solapado before insert on turno for each row
 	begin
-		if exists(select fechaTurno, horario from Turno where Cliente_IdCliente=new.Cliente_IdCliente and fechaTurno=new.fechaTurno and horario=new.horario) then
+		if exists(select fecha_turno, horario from turno where cliente_usuario_id_usuario=new.cliente_usuario_id_usuario and fecha_turno=new.fecha_turno and horario=new.horario) then
 			signal sqlstate '45000' set message_text='ya hay un turno en esa fecha a esa hora';
 		end if;
 end//
 delimiter //
-create trigger terminar_turno after update on Clinica for each row
+create trigger terminar_turno after update on turno for each row
 	begin
-		insert HistoriaMedico values(curdate(),(select Cliente_IdCliente from Turno where IdTurno=new.IdTurno), new.info);
+		insert historia_medico values(curdate(), new.info, new.cliente_usuario_id_usuario);
 	end//
-
 delimiter //
-create procedure especialidadConMayorDemanda(in fechaInicio date, in fechaFin date)
+create procedure especialidad_con_mayor_demanda(in fecha_start varchar(45), in fecha_end varchar(45))
 	begin
-		select Especialidad.nombre, count(*) as cantidadTurnos from Turno join Medico on Medico_DNI=Medico.DNI
-		join Especialidad on Especialidad_IdEspecialidad=Especialidad.IdEspecialidad
-		where Turno.fechaTurno>=fechaInicio and Turno.fechaTurno<=fechaFin
-		group by Especialidad.nombre order by cantidadTurnos desc;
+		declare fecha_inicio date;
+		declare fecha_fin date;
+		set fecha_inicio = STR_TO_DATE(fecha_start,"%Y-%m-%d");
+		set fecha_fin = STR_TO_DATE(fecha_end,"%Y-%m-%d");
+		select especialidad.nombre as especialidad, count(*) as cantidad from turno join medico on medico_usuario_id_usuario=medico.usuario_id_usuario
+		join especialidad on especialidad_id_especialidad=especialidad.id_especialidad
+		where turno.fecha_turno>=fecha_inicio and turno.fecha_turno<=fecha_fin
+		group by especialidad.nombre order by cantidad desc;
 	end //
 	
 delimiter //
-create procedure promedioEsperaPorEspecialidad()
+create procedure promedio_espera_por_especialidad()
 	begin
-		select Especialidad.nombre, avg(datediff(fechaTurno,fechaPedido)) as promedioEspera from Turno join Medico on Medico_DNI=Medico.DNI
-		join Especialidad on Especialidad_IdEspecialidad=Especialidad.IdEspecialidad
-		group by Especialidad.nombre order by promedioEspera desc;
+		select especialidad.nombre, avg(datediff(fecha_turno,fecha_pedido)) as promedio_espera from turno join medico on medico_usuario_id_usuario=medico.usuario_id_usuario
+		join especialidad on especialidad_id_especialidad=especialidad.id_especialidad
+		group by especialidad.nombre order by promedio_espera desc;
 	end //
 
 delimiter //
 create event recordatorio_turnos_diario on schedule EVERY 1 DAY starts timestamp(current_date, '07:00:00') do begin
-    insert into Notificacion (Cliente_IdCliente, descripcion) select Turno.Cliente_IdCliente,
-	concat('Recordatorio: Tiene un turno programado para mañana ', date_format(Turno.fechaTurno, '%d/%m/%Y'),
-            ' a las ', time_format(Turno.horario, '%H:%i'), ' con el Dr./Dra. ', Medico.nombre, ' ', Medico.apellido,
-            ' en el hospital ', Hospital.nombre) 
-    as descripcion from Turno join Medico on Turno.Medico_DNI = Medico.DNI
-    join Hospital on Turno.Hospital_IdHospital = Hospital.IdHospital 
-    where Turno.fechaTurno = date_add(current_date, interval 1 day)
-    and Turno.Estado_IdEstado = 1;
+    insert into notificacion (cliente_usuario_id_usuario, descripcion) select turno.cliente_usuario_id_usuario,
+	concat('Recordatorio: Tiene un turno programado para mañana ', date_format(turno.fecha_turno, '%d/%m/%Y'),
+            ' a las ', time_format(turno.horario, '%H:%i'), ' con el Dr./Dra. ', medico.nombre, ' ', medico.apellido,
+            ' en el hospital ', hospital.nombre) 
+    as descripcion from turno join medico on turno.medico_usuario_id_usuario = medico.usuario_id_usuario
+    join hospital on turno.hospital_id_hospital = hospital.id_hospital 
+    where turno.fecha_turno = date_add(current_date, interval 1 day)
+    and turno.estado_id_estado = 1;
 end//
 delimiter //
 create event eliminar_turnos_vencidos on schedule every 1 day starts now() do begin
-	delete Turno from Turno join Estado on Estado_IdEstado=Estado.IdEstado where Estado.nombre!="Atendido" and Estado.nombre!="Cancelado";
+	delete turno from turno join estado on estado_id_estado=estado.id_estado where estado.nombre!="Atendido" and estado.nombre!="Cancelado";
 end//
-
 	
 	
 	

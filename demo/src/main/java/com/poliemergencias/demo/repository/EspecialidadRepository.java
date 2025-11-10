@@ -1,10 +1,9 @@
 package com.poliemergencias.demo.repository;
 
 import com.poliemergencias.demo.model.Especialidad;
-import com.poliemergencias.demo.dto.EspecialidadRanking;
+import com.poliemergencias.demo.model.EspecialidadRanking;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 

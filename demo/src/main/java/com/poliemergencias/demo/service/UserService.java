@@ -41,4 +41,21 @@ public class UserService {
             throw new RuntimeException("Ese usuario no existe");
         }
     }
+    public boolean isAdmin(Long idAdmin){
+        Optional<User> user=userRepository.findById(idAdmin);
+        if(user.isPresent()&&user.get().getRole().equals("ADMIN")) {
+            return true;
+        }
+        return false;
+    }
+
+    public User hacerAdmin(Long idCliente){
+        Optional<User> userCli=userRepository.findById(idCliente);
+        if (userCli.isPresent()) {
+            User userCLient = userCli.get();
+            userCLient.setRole("ADMIN");
+            return userRepository.save(userCLient);
+        }
+        else throw new RuntimeException("El usuario no existe");
+    }
 }

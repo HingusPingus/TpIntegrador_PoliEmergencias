@@ -6,15 +6,13 @@ import com.poliemergencias.demo.dto.SedeDTO;
 import com.poliemergencias.demo.dto.TipoEstudioDTO;
 import com.poliemergencias.demo.model.*;
 import com.poliemergencias.demo.repository.UserRepository;
-import com.poliemergencias.demo.service.DoctorService;
-import com.poliemergencias.demo.service.EspecialidadService;
-import com.poliemergencias.demo.service.SedeService;
-import com.poliemergencias.demo.service.TipoEstudioService;
+import com.poliemergencias.demo.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+@CrossOrigin(origins = "*") // para permitir llamados desde cualquier frontend
 
 @RestController
 @RequestMapping("/api/admin")
@@ -28,13 +26,12 @@ public class AdminController {
     @Autowired
     private SedeService sedeService;
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @PostMapping("/cargar-doctores")
     public ResponseEntity<?> registerDoctor(@RequestBody DoctorRegistrationDTO registrationDTO, @RequestParam Long idAdmin) {
         try{
             registrationDTO.setRole("DOCTOR");
-            Optional<User> user=userRepository.findById(idAdmin);
-            if(user.isPresent()&&user.get().getRole().equals("ADMIN")) {
+            if(userService.isAdmin(idAdmin)){
                 Doctor doctor = doctorService.registerDoctor(registrationDTO);
                 return ResponseEntity.ok("Doctor registered successfully with ID: " + doctor.getId());
             }
@@ -49,8 +46,7 @@ public class AdminController {
     @PostMapping("/cargar-especialidades")
     public ResponseEntity<?> cargarEspecialidad(@RequestBody EspecialidadDTO especialidadDTO, @RequestParam Long idAdmin) {
         try{
-            Optional<User> user=userRepository.findById(idAdmin);
-            if(user.isPresent()&&user.get().getRole().equals("ADMIN")) {
+            if(userService.isAdmin(idAdmin)){
                 Especialidad especialidad= especialidadService.cargarEspecialidad(especialidadDTO);
                 return ResponseEntity.ok("Especialidad loaded successfully with ID: "+especialidad.getId() );
             }
@@ -70,8 +66,7 @@ public class AdminController {
     @PostMapping("/cargar-sedes")
     public ResponseEntity<?> cargarSede(@RequestBody SedeDTO sedeDTO, @RequestParam Long idAdmin) {
         try{
-            Optional<User> user=userRepository.findById(idAdmin);
-            if(user.isPresent()&&user.get().getRole().equals("ADMIN")) {
+            if(userService.isAdmin(idAdmin)){
                 Sede sede=sedeService.cargarSede(sedeDTO);
                 return ResponseEntity.ok("Sede loaded successfully with ID: "+sede.getId() );
             }
@@ -85,8 +80,7 @@ public class AdminController {
     @PostMapping("/cargar-estudios")
     public ResponseEntity<?> cargarEstudios(@RequestBody TipoEstudioDTO tipoEstudioDTO, @RequestParam Long idAdmin) {
         try{
-            Optional<User> user=userRepository.findById(idAdmin);
-            if(user.isPresent()&&user.get().getRole().equals("ADMIN")) {
+            if(userService.isAdmin(idAdmin)){
                 TipoEstudio tipoEstudio=tipoEstudioService.cargarTipoEstudio(tipoEstudioDTO);
                 return ResponseEntity.ok("Tipo estudio loaded successfully with ID: "+tipoEstudio.getId() );
             }
@@ -97,20 +91,14 @@ public class AdminController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @PostMapping("/hacer-admin")
+    @PostMapping("/haceradmin")
     public ResponseEntity<?> hacerAdmin(@RequestBody Long idCliente,@RequestParam Long idAdmin){
         try {
-            Optional<User> user = userRepository.findById(idAdmin);
-            if (user.isPresent() && user.get().getRole().equals("ADMIN")) {
-                Optional<User> userCli=userRepository.findById(idCliente);
-                if (userCli.isPresent()) {
-                    User userCLient=userCli.get();
-                    userCLient.setRole("ADMIN");
-                    userRepository.save(userCLient);
-                    return ResponseEntity.ok("El usuario de id "+idCliente+" ahora es admin");
-                }
-                throw new RuntimeException("Ese usuario no existe");
-            } else {
+            if(userService.isAdmin(idAdmin)){
+                userService.hacerAdmin(idCliente);
+                return ResponseEntity.ok("El usuario de id "+idCliente+" ahora es admin");
+            }
+            else{
                 throw new RuntimeException("No tiene permiso para ejecutar esta accion");
             }
         }

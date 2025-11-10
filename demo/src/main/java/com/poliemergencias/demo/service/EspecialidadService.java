@@ -2,7 +2,7 @@ package com.poliemergencias.demo.service;
 
 import com.poliemergencias.demo.dto.EspecialidadDTO;
 import com.poliemergencias.demo.model.Especialidad;
-import com.poliemergencias.demo.dto.EspecialidadRanking;
+import com.poliemergencias.demo.model.EspecialidadRanking;
 import com.poliemergencias.demo.repository.EspecialidadRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

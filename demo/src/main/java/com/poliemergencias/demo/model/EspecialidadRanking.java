@@ -1,4 +1,4 @@
-package com.poliemergencias.demo.dto;
+package com.poliemergencias.demo.model;
 
 public interface EspecialidadRanking {
 

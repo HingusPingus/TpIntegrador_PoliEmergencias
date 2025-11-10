@@ -51,7 +51,7 @@ DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cliente` (
-  `obra_social_id_obra_social` int DEFAULT NULL,
+  `obra_social_id_obra_social` int NOT NULL,
   `usuario_id_usuario` int NOT NULL,
   PRIMARY KEY (`usuario_id_usuario`),
   KEY `fk_Cliente_ObraSocial1_idx` (`obra_social_id_obra_social`),
@@ -67,7 +67,7 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (1,5),(1,6),(2,14),(2,15);
+INSERT INTO `cliente` VALUES (1,5),(1,6),(2,15),(3,19),(4,20),(5,23),(6,21),(7,14),(7,22);
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -399,7 +399,7 @@ CREATE TABLE `obra_social` (
   `id_obra_social` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`id_obra_social`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -408,7 +408,7 @@ CREATE TABLE `obra_social` (
 
 LOCK TABLES `obra_social` WRITE;
 /*!40000 ALTER TABLE `obra_social` DISABLE KEYS */;
-INSERT INTO `obra_social` VALUES (1,'OSDE'),(2,'Swiss Medical');
+INSERT INTO `obra_social` VALUES (1,'OSDE'),(2,'Swiss Medical'),(3,'Galeno'),(4,'Omint'),(5,'Medife'),(6,'Sancor Salud'),(7,'Prevención Salud');
 /*!40000 ALTER TABLE `obra_social` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -490,7 +490,7 @@ CREATE TABLE `usuario` (
   `rol` varchar(45) DEFAULT NULL,
   `contacto_emergencia` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -499,7 +499,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (5,NULL,NULL,'PACIENTE','12312312'),(6,'asd','hola123','ADMIN','12312312'),(14,'SDFSDF Mejia','cacona450','PACIENTE','149832490'),(15,'asdasfeef Mejia','cacona450','PACIENTE','149832490'),(17,'dfgfgfd Mejia','cacona450','DOCTOR','149832490'),(18,'asdasdasdasd','sdfsdf','DOCTOR','23432432');
+INSERT INTO `usuario` VALUES (5,NULL,NULL,'PACIENTE','12312312'),(6,'asd','hola123','ADMIN','12312312'),(14,'SDFSDF Mejia','cacona450','PACIENTE','149832490'),(15,'asdasfeef Mejia','cacona450','PACIENTE','149832490'),(17,'dfgfgfd Mejia','cacona450','DOCTOR','149832490'),(18,'asdasdasdasd','sdfsdf','DOCTOR','23432432'),(19,'afadfdsfds','hola','PACIENTE','324324325'),(20,'dsfsdfsdf','3453453dfgdf','PACIENTE','0'),(21,'asdasdsd','asdasdasdas','PACIENTE','0'),(22,'asdasd','23432432','PACIENTE','0'),(23,'SDADSASDAS','dasdasdasdasasdas','PACIENTE','1432975983');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -512,4 +512,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-03 12:35:30
+-- Dump completed on 2025-11-10 10:13:12

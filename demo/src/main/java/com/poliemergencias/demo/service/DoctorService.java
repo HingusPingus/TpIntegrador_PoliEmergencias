@@ -28,14 +28,11 @@ public class DoctorService {
 
     @Transactional
     public Doctor registerDoctor(DoctorRegistrationDTO registrationDTO) {
-
         User savedUser = userService.registerUser(registrationDTO);
-
         Doctor doctor = new Doctor();
         doctor.setUser(savedUser);
         doctor.setTelefono(registrationDTO.getTelefono());
         doctor.setImagen(registrationDTO.getImagen());
-
         if (registrationDTO.getIdEspecialidad() != null) {
             Especialidad especialidad = especialidadRepository.findById(registrationDTO.getIdEspecialidad())
                     .orElseThrow(() -> new RuntimeException("Especialidad not found"));
