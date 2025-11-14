@@ -1,5 +1,6 @@
 package com.poliemergencias.demo.service;
 
+import com.poliemergencias.demo.dto.LoginDTO;
 import com.poliemergencias.demo.dto.RegistrationDTO;
 import com.poliemergencias.demo.model.User;
 import com.poliemergencias.demo.repository.UserRepository;
@@ -57,5 +58,15 @@ public class UserService {
             return userRepository.save(userCLient);
         }
         else throw new RuntimeException("El usuario no existe");
+    }
+
+    public Optional<User> logIn(LoginDTO loginDto){
+        Optional<User> userOp=userRepository.findByName(loginDto.getUsername());
+        if(userOp.isPresent()&&userOp.get().getPassword().equals( loginDto.getPassword())){
+            return userOp;
+        }
+        else {
+            return Optional.empty();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.poliemergencias.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Paciente {
     @OneToOne
     @MapsId
     @JoinColumn(name = "usuario_id_usuario")
+    @JsonIgnore
     private User user;
 
     public Paciente(Long id, ObraSocial obraSocial, List<Turno> turnos, User user) {
