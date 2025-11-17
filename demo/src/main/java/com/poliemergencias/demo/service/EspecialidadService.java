@@ -3,6 +3,7 @@ package com.poliemergencias.demo.service;
 import com.poliemergencias.demo.dto.EspecialidadDTO;
 import com.poliemergencias.demo.model.Especialidad;
 import com.poliemergencias.demo.model.EspecialidadRanking;
+import com.poliemergencias.demo.model.TipoEstudio;
 import com.poliemergencias.demo.repository.EspecialidadRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,10 @@ public class EspecialidadService {
     @Transactional
     public List<EspecialidadRanking> especialidadMasPedida(String fechaInicio, String fechaFinal){
         return especialidadRepository.especialidadesMasPedidas(fechaInicio,fechaFinal);
+    }
+
+    @Transactional
+    public List<Especialidad> getEspecialidad(){
+        return especialidadRepository.findAll();
     }
 }

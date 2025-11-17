@@ -1,5 +1,6 @@
 package com.poliemergencias.demo.controller;
 
+import com.poliemergencias.demo.model.Especialidad;
 import com.poliemergencias.demo.model.EspecialidadRanking;
 import com.poliemergencias.demo.service.EspecialidadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,18 @@ public class EspecialidadController {
                 return ResponseEntity.ok(lista);
             }
             throw new RuntimeException("No hubieron turnos en ese rango");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @GetMapping
+    public ResponseEntity<?> getEspecialidades(){
+        try {
+            List<Especialidad> lista = especialidadService.getEspecialidad();
+            if (!lista.isEmpty()) {
+                return ResponseEntity.ok(lista);
+            }
+            throw new RuntimeException("No hay especialidades");
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -17,14 +17,14 @@ public class TurnoDTO {
 
     public TurnoDTO() {}
 
-    public TurnoDTO( String fecha,String horario ,Long id_doctor, Long sede,Long idEstudio) {
+    public TurnoDTO( String fecha,String horario ,Long id_doctor, Long sede,Long idEstudio,Long idEspecialidad) {
 
         this.fecha = LocalDate.parse(fecha);
         this.horario=LocalTime.parse(horario);
         this.sede=sede;
         this.id_doctor=id_doctor;
         this.idEstudio = idEstudio;
-
+        this.idEspecialidad=idEspecialidad;
     }
 
 
@@ -32,8 +32,8 @@ public class TurnoDTO {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+    public void setFecha(String fecha) {
+        this.fecha = LocalDate.parse(fecha);
     }
 
     public Long getId_doctor() {
@@ -83,7 +83,10 @@ public class TurnoDTO {
         return horario;
     }
 
-    public void setHorario(LocalTime horario) {
-        this.horario = horario;
+    public void setHorario(String horario) {
+        this.horario=LocalTime.parse(horario);    }
+
+    public void setIdEspecialidad(Long idEspecialidad) {
+        this.idEspecialidad = idEspecialidad;
     }
 }

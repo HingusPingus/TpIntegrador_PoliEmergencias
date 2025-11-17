@@ -6,6 +6,7 @@ import com.poliemergencias.demo.model.Doctor;
 import com.poliemergencias.demo.model.Paciente;
 import com.poliemergencias.demo.model.User;
 import com.poliemergencias.demo.service.PacienteService;
+import com.poliemergencias.demo.service.SedeService;
 import com.poliemergencias.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,9 @@ public class ApiController {
 
     @Autowired
     private PacienteService pacienteService;
+
+    @Autowired
+    private SedeService sedeService;
 
     @Autowired
     private UserService userService;
@@ -53,6 +57,15 @@ public class ApiController {
     public ResponseEntity<?> getEmergencias(@RequestParam Long userId){
         try{
             return ResponseEntity.ok(userService.getEmergencia(userId));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/sedes")
+    public ResponseEntity<?> getSedes(){
+        try{
+            return ResponseEntity.ok(sedeService.getSedes());
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

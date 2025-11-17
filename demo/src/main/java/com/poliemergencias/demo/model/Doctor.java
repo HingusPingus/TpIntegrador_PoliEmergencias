@@ -23,7 +23,7 @@ public class Doctor {
 
     @ManyToMany
     @JoinTable(name = "medico_has_hospital",
-            joinColumns = @JoinColumn(name = "medico_usuario_id_usuario"),
+            joinColumns = @JoinColumn(name = "medico_usuario_id_usuario",referencedColumnName = "usuario_id_usuario"),
             inverseJoinColumns = @JoinColumn(name = "hospital_id_hospital"))
     private Set<Sede> hospitales;
 
@@ -105,5 +105,19 @@ public class Doctor {
 
     public void setTurnos(List<Turno> turnos) {
         this.turnos = turnos;
+    }
+
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "id=" + id +
+                ", telefono=" + telefono +
+                ", imagen='" + imagen + '\'' +
+                ", especialidades=" + especialidades +
+                ", hospitales=" + hospitales +
+                ", obrasSocialesAtendidas=" + obrasSocialesAtendidas +
+                ", user=" + user +
+                ", turnos=" + turnos +
+                '}';
     }
 }

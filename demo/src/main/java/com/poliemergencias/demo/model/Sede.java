@@ -1,5 +1,6 @@
 package com.poliemergencias.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -17,8 +18,9 @@ public class Sede {
     @ManyToMany
     @JoinTable(name = "medico_has_hospital",
             joinColumns = @JoinColumn(name = "hospital_id_hospital"),
-            inverseJoinColumns = @JoinColumn(name = "usuario_id_usuario"))
-    private List<Doctor> hospitales;
+            inverseJoinColumns = @JoinColumn(name = "medico_usuario_id_usuario"))
+    @JsonIgnore
+    private List<Doctor> doctores;
 
 
     public Sede() {
@@ -27,7 +29,7 @@ public class Sede {
     public Sede(String nombre, String direccion, List<Doctor> hospitales) {
         this.nombre = nombre;
         this.direccion = direccion;
-        this.hospitales = hospitales;
+        this.doctores = hospitales;
     }
 
     public Long getId() {
@@ -54,12 +56,12 @@ public class Sede {
         this.direccion = direccion;
     }
 
-    public List<Doctor> getHospitales() {
-        return hospitales;
+    public List<Doctor> getDoctores() {
+        return doctores;
     }
 
-    public void setHospitales(List<Doctor> hospitales) {
-        this.hospitales = hospitales;
+    public void setDoctores(List<Doctor> hospitales) {
+        this.doctores = hospitales;
     }
 
 }

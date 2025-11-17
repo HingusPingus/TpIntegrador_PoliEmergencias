@@ -1,5 +1,6 @@
 package com.poliemergencias.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class ObraSocial {
     @Column(name = "nombre")
     private String nombre;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "obraSocial")
     private List<Paciente> pacientes;
 

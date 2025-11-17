@@ -26,6 +26,8 @@ public class TurnoService {
     @Autowired
     private DoctorRepository doctorRepository;
     @Autowired
+    private DoctorService doctorService;
+    @Autowired
     private SedeRepository sedeRepository;
     @Autowired
     private TipoEstudioRepository tipoEstudioRepository;
@@ -42,7 +44,7 @@ public class TurnoService {
         if (doctorRepository.existsById(turnoDTO.getId_doctor()))
             turno.setIdDoctor(turnoDTO.getId_doctor());
         else throw new RuntimeException("Ese doctor no existe");
-        if(checkDoctor(turnoDTO,idUsuario)) {
+        if(doctorService.checkDoctor(turnoDTO,idUsuario)) {
             turno.setFechaTurno(turnoDTO.getFecha());
             if (sedeRepository.existsById(turnoDTO.getSede()))
                 turno.setIdSede(turnoDTO.getSede());
@@ -74,46 +76,7 @@ public class TurnoService {
     public List<Turno> buscarPorCliente(Long idCliente){
         return turnoRepository.findByIdCliente(idCliente);
     }
-    public boolean checkDoctor(TurnoDTO turnoDTO, Long idUsuario) {
-        Doctor doctor = doctorRepository.findById(turnoDTO.getId_doctor()).get();
-        if (doctorHasTurno(turnoDTO,doctor)){
-            return false;
-        }
-        if(doctorNotAttendsObraSocial(turnoDTO,doctor,idUsuario)){
-            return false;
-        }
-        if(doctorHasNotEspecialidad(turnoDTO,doctor)){
-            return false;
-        }
-        return true;
-    }
 
-    public boolean doctorHasTurno(TurnoDTO turnoDTO, Doctor doctor){
-
-        for (Turno t : doctor.getTurnos()) {
-            if (turnoDTO.getFecha().equals(t.getFechaTurno()) && turnoDTO.getHorario().getHour() == t.getHorario().getHour()) {
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean doctorNotAttendsObraSocial(TurnoDTO turnoDTO,Doctor doctor,Long idUsuario){
-        Paciente paciente = pacienteRepository.findById(idUsuario).get();
-        for (Doctor d : doctorRepository.findByObrasSocialesAtendidasId(paciente.getObraSocial().getId())) {
-            if(d.getId().equals(doctor.getId())){
-                return false;
-            }
-        }
-        return true;
-    }
-    public boolean doctorHasNotEspecialidad(TurnoDTO turnoDTO, Doctor doctor){
-        for (Doctor d : doctorRepository.findByEspecialidades_id(turnoDTO.getIdEspecialidad())) {
-            if(d.getId().equals(doctor.getId())){
-                return false;
-            }
-        }
-        return true;
-    }
 
     public Turno finalizarTurno(TurnoFinDTO turnoDTO, Long userId, Long turnoId){
         Optional<User> user=userRepository.findById(userId);
