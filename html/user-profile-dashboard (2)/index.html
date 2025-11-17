@@ -90,11 +90,11 @@
 
         // --- App Components ---
 
-        const InfoField = ({ label, value, fullWidth = false }) => (
+        const InfoField = ({ label, value, fullWidth = false, id = '' }) => (
             <div className={fullWidth ? 'w-full md:w-1/2' : ''}>
                 <label className="block text-sm font-medium text-gray-500 mb-2">{label}</label>
                 <div className="border border-gray-300 rounded-full px-4 py-2 text-gray-800 bg-gray-50 text-sm">
-                    {value}
+                    <span id={id}>{value}</span>
                 </div>
             </div>
         );
@@ -146,15 +146,16 @@
           </div>
         );
 
+
         const ProfileDetailsCard = () => (
             <div className="lg:col-span-2 bg-white border border-gray-200 rounded-lg shadow-sm p-8">
                 <h1 className="text-4xl font-bold text-gray-900">Perfil</h1>
                 <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <InfoField label="Obra Social" id="obraSocial" value="Swiss Medical" />
+                  <InfoField label="Obra Social" value="Swiss Medical" id="obraSocial" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 mt-12">Contacto de emergencia:</h2>
                 <div className="mt-8">
-                     <InfoField label="Teléfono" id="telefono" value="1541523525" fullWidth={true} />
+                  <InfoField label="Teléfono" value="1541523525" fullWidth={true} id="telefono" />
                 </div>
             </div>
         );
