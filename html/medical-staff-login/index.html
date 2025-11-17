@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio de Sesión - Personal Médico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+  <link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel" data-type="module">
+      import React, { useState, useEffect } from 'react';
+      import ReactDOM from 'react-dom/client';
+
+      const App = () => {
+        const [username, setUsername] = useState('');
+        const [password, setPassword] = useState('');
+        const [message, setMessage] = useState({ text: '', type: '' }); // type: 'error', 'success', 'info'
+        const [isLoading, setIsLoading] = useState(false);
+
+        // Check if user is already logged in on component mount
+        useEffect(() => {
+          const isLoggedIn = localStorage.getItem("isLoggedIn");
+          const user = localStorage.getItem("user");
+          
+          if (isLoggedIn === "true" && user) {
+            const userData = JSON.parse(user);
+            setMessage({
+              text: `Ya has iniciado sesión como ${userData.username || userData.nombre || 'Usuario'}. Serás redirigido automáticamente.`,
+              type: 'info'
+            });
+            
+            // Optional: Redirect after showing message
+            // setTimeout(() => {
+            //   window.location.href = 'dashboard.html';
+            // }, 3000);
+          }
+        }, []);
+
+        const showMessage = (text, type) => {
+          setMessage({ text, type });
+          // Auto-hide success and info messages after 5 seconds
+          if (type === 'success' || type === 'info') {
+            setTimeout(() => {
+              setMessage({ text: '', type: '' });
+            }, 5000);
+          }
+        };
+
+        const handleLogin = async (e) => {
+          e.preventDefault();
+          setIsLoading(true);
+          
+          // Basic validation
+          if (!username || !password) {
+            showMessage('Por favor, completa todos los campos', 'error');
+            setIsLoading(false);
+            return;
+          }
+          
+          const loginData = {
+            username: username,
+            password: password
+          };
+          
+          console.log('Enviando datos de login:', loginData);
+          
+          try {
+            const requestOptions = {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(loginData)
+            };
+            
+            const response = await fetch('http://127.0.0.1:8080/api/login', requestOptions);
+            console.log('Response status:', response.status);
+            
+            const contentType = response.headers.get('content-type');
+            let data;
+            
+            if (contentType && contentType.includes('application/json')) {
+              data = await response.json();
+            } else {
+              const text = await response.text();
+              throw new Error(`Respuesta no JSON: ${text.substring(0, 100)}`);
+            }
+            
+            if (!response.ok) {
+              throw new Error(data.message || `Error ${response.status}: ${response.statusText}`);
+            }
+            
+            console.log('Login successful:', data);
+            showMessage('¡Inicio de sesión exitoso! Redirigiendo...', 'success');
+            
+            // Save user to localStorage
+            loginUser(data);
+            
+            // Optional: Redirect after successful login
+            // setTimeout(() => {
+            //   window.location.href = 'dashboard.html';
+            // }, 2000);
+            
+          } catch (error) {
+            console.error('Login error:', error);
+            
+            if (error.message.includes('405')) {
+              showMessage('Error: Método no permitido. Verifica la configuración del servidor.', 'error');
+            } else if (error.message.includes('404')) {
+              showMessage('Error: Endpoint no encontrado. Verifica la URL.', 'error');
+            } else if (error.message.includes('Failed to fetch')) {
+              showMessage('Error: No se pudo conectar al servidor. Verifica que el servidor esté ejecutándose.', 'error');
+            } else {
+              showMessage(error.message, 'error');
+            }
+          } finally {
+            setIsLoading(false);
+          }
+        };
+
+        const loginUser = (user) => {
+          if (typeof(Storage) !== "undefined") {
+            localStorage.setItem("user", JSON.stringify(user));
+            localStorage.setItem("username", user.username || user.nombre || 'Usuario');
+            localStorage.setItem("isLoggedIn", "true");
+            console.log('Usuario guardado en localStorage:', user);
+          } else {
+            console.error('LocalStorage no soportado');
+            showMessage('Error: Tu navegador no soporta el almacenamiento local.', 'error');
+          }
+        };
+
+        // Function to get appropriate styles for each message type
+        const getMessageStyles = () => {
+          switch (message.type) {
+            case 'error':
+              return 'bg-red-50 border border-red-200 text-red-700';
+            case 'success':
+              return 'bg-green-50 border border-green-200 text-green-700';
+            case 'info':
+              return 'bg-blue-50 border border-blue-200 text-blue-700';
+            default:
+              return 'bg-gray-50 border border-gray-200 text-gray-700';
+          }
+        };
+
+        // Function to get appropriate icon for each message type
+        const getMessageIcon = () => {
+          switch (message.type) {
+            case 'error':
+              return '❌';
+            case 'success':
+              return '✅';
+            case 'info':
+              return 'ℹ️';
+            default:
+              return '';
+          }
+        };
+
+        return (
+          <main className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+            <div className="flex w-full max-w-5xl bg-white shadow-xl rounded-2xl overflow-hidden">
+              {/* Form Section */}
+              <div className="w-full md:w-1/2 p-8 sm:p-12 flex flex-col justify-center">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-8">
+                  Iniciar sesión
+                </h1>
+                
+                {/* Message Display */}
+                {message.text && (
+                  <div className={`mb-6 p-4 rounded-lg ${getMessageStyles()} transition-all duration-300`}>
+                    <div className="flex items-start">
+                      <span className="mr-2 mt-0.5">{getMessageIcon()}</span>
+                      <p className="text-sm font-medium">{message.text}</p>
+                    </div>
+                  </div>
+                )}
+                
+                <form onSubmit={handleLogin} className="space-y-6">
+                  <div>
+                    <label
+                      htmlFor="username"
+                      className="block text-sm font-medium text-gray-600 mb-2"
+                    >
+                      Nombre de usuario
+                    </label>
+                    <input
+                      type="text"
+                      id="username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      placeholder="Nombre de usuario"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A9C9C]"
+                      aria-label="Nombre de usuario"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="password"
+                      className="block text-sm font-medium text-gray-600 mb-2"
+                    >
+                      Contraseña
+                    </label>
+                    <input
+                      type="password"
+                      id="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="Contraseña"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5A9C9C]"
+                      aria-label="Contraseña"
+                    />
+                  </div>
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className={`w-full ${
+                        isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#5A9C9C] hover:bg-[#4a8383]'
+                      } text-white py-3 rounded-full font-semibold transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5A9C9C]`}
+                    >
+                      {isLoading ? 'Iniciando sesión...' : 'Ingresar'}
+                    </button>
+                  </div>
+                </form>
+                <p className="text-center text-sm text-gray-600 mt-8">
+                  ¿No tenés cuenta?{' '}
+                  <a href="#" className="font-semibold text-[#5A9C9C] hover:underline">
+                    Registrate
+                  </a>
+                </p>
+              </div>
+
+              {/* Illustration Section */}
+              <div className="hidden md:flex w-1/2">
+                 <img 
+                    src="https://images.unsplash.com/photo-1538108149393-fbbd81895907?q=80&w=1287&auto=format&fit=crop" 
+                    alt="Medical professionals in a hospital setting" 
+                    className="w-full h-full object-cover"
+                  />
+              </div>
+            </div>
+          </main>
+        );
+      };
+
+      const rootElement = document.getElementById('root');
+      if (rootElement) {
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(
+          <React.StrictMode>
+            <App />
+          </React.StrictMode>
+        );
+      } else {
+        console.error("Could not find root element to mount to");
+      }
+    </script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
