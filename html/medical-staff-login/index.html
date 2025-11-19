@@ -39,14 +39,14 @@
           if (isLoggedIn === "true" && user) {
             const userData = JSON.parse(user);
             setMessage({
-              text: `Ya has iniciado sesión como ${userData.username || userData.nombre || 'Usuario'}. Serás redirigido automáticamente.`,
+              text: `Ya has iniciado sesión como ${userData.username|| 'Usuario'}. Serás redirigido automáticamente.`,
               type: 'info'
             });
             
             // Optional: Redirect after showing message
-            // setTimeout(() => {
-            //   window.location.href = 'dashboard.html';
-            // }, 3000);
+            setTimeout(() => {
+              window.location.href = '../home/index.html';
+            }, 3000);
           }
         }, []);
 
@@ -111,9 +111,9 @@
             loginUser(data);
             
             // Optional: Redirect after successful login
-            // setTimeout(() => {
-            //   window.location.href = 'dashboard.html';
-            // }, 2000);
+            setTimeout(() => {
+              window.location.href = '../home/index.html';
+            }, 2000);
             
           } catch (error) {
             console.error('Login error:', error);
