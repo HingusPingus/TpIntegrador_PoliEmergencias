@@ -1,9 +1,10 @@
+
 document.getElementById('registroForm').addEventListener('submit', function(e) {            
     // Aquí puedes agregar la lógica para procesar el formulario
     e.preventDefault(); 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const contacto = document.getElementById('contactoEmergencia').value;
+    const username = document.getElementById('nombre').value;
+    const password = document.getElementById('contrasena').value;
+    const contacto = document.getElementById('telefonoEmergencia').value;
     const obraSocial = document.getElementById('obraSocial').value;
             
     const postData = {
@@ -27,13 +28,9 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
                 
         if (contentType && contentType.includes('application/json')) {
             return response.json();
-        } else {
-        // Si no es JSON, obtener como texto
-            return response.text().then(text => {
-            throw new Error(`Respuesta no JSON: ${text.substring(0, 100)}`);
-            });
+        } 
         }
-        })
+        )
         .then(data => {
             console.log('Success:', data); // Handle the successful response data
         })
@@ -44,27 +41,5 @@ document.getElementById('registroForm').addEventListener('submit', function(e) {
             
 });
 
-
-
-
-// Función para mostrar errores
-function showError(message) {
-    const errorElement = document.getElementById('errorMessage');
-    errorElement.textContent = message;
-    errorElement.style.display = 'block';
-    
-    const successElement = document.getElementById('successMessage');
-    successElement.style.display = 'none';
-}
-
-// Función para mostrar éxito
-function showSuccess(message) {
-    const successElement = document.getElementById('successMessage');
-    successElement.textContent = message;
-    successElement.style.display = 'block';
-    
-    const errorElement = document.getElementById('errorMessage');
-    errorElement.style.display = 'none';
-}
 
 

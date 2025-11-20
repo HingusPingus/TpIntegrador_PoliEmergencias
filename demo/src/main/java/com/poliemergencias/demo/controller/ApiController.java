@@ -5,6 +5,7 @@ import com.poliemergencias.demo.dto.PacienteRegistrationDTO;
 import com.poliemergencias.demo.model.Doctor;
 import com.poliemergencias.demo.model.Paciente;
 import com.poliemergencias.demo.model.User;
+import com.poliemergencias.demo.service.ObraSocialService;
 import com.poliemergencias.demo.service.PacienteService;
 import com.poliemergencias.demo.service.SedeService;
 import com.poliemergencias.demo.service.UserService;
@@ -29,6 +30,9 @@ public class ApiController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ObraSocialService obraSocialService;
 
     @PostMapping("/usuarios")
     public ResponseEntity<?> registerPaciente(@RequestBody PacienteRegistrationDTO registrationDTO) {
@@ -66,6 +70,15 @@ public class ApiController {
     public ResponseEntity<?> getSedes(){
         try{
             return ResponseEntity.ok(sedeService.getSedes());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/obrasSociales")
+    public ResponseEntity<?> getObraSociales(){
+        try{
+            return ResponseEntity.ok(obraSocialService.getObrasSociales());
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

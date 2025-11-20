@@ -28,9 +28,9 @@ public class TurnoController {
     }
 
     @PostMapping("/{id}/finalizar")
-    public ResponseEntity<?> finTurno(@RequestBody TurnoFinDTO turnoDTO, @RequestParam Long userId, @PathVariable Long id) {
+    public ResponseEntity<?> finTurno(@RequestBody TurnoFinDTO turnoDTO, @RequestParam Long doctorId, @PathVariable Long id) {
         try {
-            Turno turno = turnoService.finalizarTurno(turnoDTO, userId,id);
+            Turno turno = turnoService.finalizarTurno(turnoDTO, doctorId,id);
             return ResponseEntity.ok("Turno finalized successfully with ID: " + turno.getId());
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -1,0 +1,367 @@
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro Médico</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- React & ReactDOM (UMD for browser usage without build step) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <!-- Babel Standalone to compile JSX in the browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      // --- Components ---
+
+      // Inline Icon Component (Replacing Lucide dependency)
+      const ArrowLeft = ({ className }) => (
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          className={className}
+        >
+          <path d="m12 19-7-7 7-7"/>
+          <path d="M19 12H5"/>
+        </svg>
+      );
+
+      // InputField Component
+      const InputField = ({ label, id, className = '', error, ...props }) => {
+        return (
+          <div className="flex flex-col space-y-1.5">
+            <label htmlFor={id} className="text-sm font-medium text-gray-700 ml-1">
+              {label}
+            </label>
+            <input
+              id={id}
+              className={`
+                w-full px-4 py-2.5 
+                border ${error ? 'border-red-500' : 'border-gray-300'} 
+                rounded-full 
+                text-gray-700 placeholder-gray-400
+                focus:outline-none focus:ring-2 ${error ? 'focus:ring-red-500' : 'focus:ring-[#66a5ad]'} focus:border-transparent
+                transition-all duration-200
+                ${className}
+              `}
+              {...props}
+            />
+            {error && (
+              <p className="text-red-500 text-xs ml-2">{error}</p>
+            )}
+          </div>
+        );
+      };
+
+      // Main App Component
+      const App = () => {
+        const [formData, setFormData] = useState({
+          nombre: '',
+          contrasena: '',
+          telefonoEmergencia: '',
+          obraSocial: ''
+        });
+
+        const [errors, setErrors] = useState({
+          telefonoEmergencia: ''
+        });
+
+        const [obrasSociales, setObrasSociales] = useState([]);
+        const [loading, setLoading] = useState(true);
+        const [submitting, setSubmitting] = useState(false);
+
+        // Fetch obras sociales on component mount
+        useEffect(() => {
+          fetch('http://127.0.0.1:8080/api/obrasSociales')
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Network response was not ok');
+              }
+              return response.json();
+            })
+            .then(data => {
+              setObrasSociales(data);
+              setLoading(false);
+            })
+            .catch(error => {
+              console.error('Error fetching obras sociales:', error);
+              setLoading(false);
+              // Optional: You can set a fallback list here if the API fails
+              setObrasSociales([
+                { id: 1, nombre: "Particular" },
+                { id: 2, nombre: "OSDE" },
+                { id: 3, nombre: "Swiss Medical" },
+                { id: 4, nombre: "Galeno" }
+              ]);
+            });
+        }, []);
+
+        const handlePhoneChange = (e) => {
+          const { name, value } = e.target;
+          
+          // Remove any non-digit characters
+          const numericValue = value.replace(/\D/g, '');
+          
+          // Limit to 10 characters
+          const limitedValue = numericValue.slice(0, 10);
+          
+          setFormData(prev => ({
+            ...prev,
+            [name]: limitedValue
+          }));
+
+          // Clear error when user starts typing
+          if (errors.telefonoEmergencia) {
+            setErrors(prev => ({
+              ...prev,
+              telefonoEmergencia: ''
+            }));
+          }
+        };
+
+        const handleChange = (e) => {
+          const { name, value } = e.target;
+          setFormData(prev => ({
+            ...prev,
+            [name]: value
+          }));
+        };
+
+        const validateForm = () => {
+          const newErrors = {};
+          
+          // Phone number validation
+          if (formData.telefonoEmergencia.length > 10) {
+            newErrors.telefonoEmergencia = 'El teléfono no puede tener más de 10 dígitos';
+          } else if (formData.telefonoEmergencia && formData.telefonoEmergencia.length < 8) {
+            newErrors.telefonoEmergencia = 'El teléfono debe tener al menos 8 dígitos';
+          }
+          
+          setErrors(newErrors);
+          return Object.keys(newErrors).length === 0;
+        };
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          
+          if (!validateForm()) {
+            return;
+          }
+          
+          setSubmitting(true);
+
+          const postData = {
+            username: formData.nombre,
+            password: formData.contrasena,
+            contactoEmergencia: parseInt(formData.telefonoEmergencia),
+            obraSocialId: parseFloat(formData.obraSocial),
+          };
+
+          console.log('Submitting data:', postData);
+
+          const requestOptions = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+          };
+
+          fetch('http://127.0.0.1:8080/api/usuarios', requestOptions)
+            .then(response => {
+              console.log('Response status:', response.status);
+              const contentType = response.headers.get('content-type');
+              
+              if (contentType && contentType.includes('application/json')) {
+                return response.json();
+              } 
+            })
+            .then(data => {
+              console.log('Success:', data);
+              alert('Registro completado exitosamente');
+              setSubmitting(false);
+              
+              // Reset form after successful submission
+              setFormData({
+                nombre: '',
+                contrasena: '',
+                telefonoEmergencia: '',
+                obraSocial: ''
+              });
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Error en el registro: ' + error.message);
+              setSubmitting(false);
+            });
+        };
+
+        return (
+          <div className="flex min-h-screen w-full bg-white overflow-hidden">
+            {/* Left Section - Form */}
+            <div className="w-full lg:w-[50%] xl:w-[45%] flex flex-col justify-center px-8 sm:px-16 md:px-24 lg:px-16 xl:px-24 py-10 z-10 relative">
+              
+              {/* Header / Back Button */}
+              <div className="mb-10">
+                <button 
+                  type="button"
+                  className="group flex items-center text-black text-3xl font-medium hover:text-gray-700 transition-colors"
+                  onClick={() => window.history.back()}
+                >
+                  <ArrowLeft className="w-8 h-8 mr-2 group-hover:-translate-x-1 transition-transform" />
+                  Registro
+                </button>
+              </div>
+
+              {/* Form */}
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                  <InputField
+                    id="nombre"
+                    name="nombre"
+                    label="Nombre"
+                    placeholder="Nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    required
+                  />
+                  <InputField
+                    id="contrasena"
+                    name="contrasena"
+                    label="Contraseña"
+                    placeholder="Contraseña"
+                    type="password"
+                    value={formData.contrasena}
+                    onChange={handleChange}
+                    required
+                  />
+                  <InputField
+                    id="telefonoEmergencia"
+                    name="telefonoEmergencia"
+                    label="Teléfono contacto de emergencia"
+                    placeholder="Teléfono de emergencia (máx. 10 dígitos)"
+                    type="tel"
+                    value={formData.telefonoEmergencia}
+                    onChange={handlePhoneChange}
+                    error={errors.telefonoEmergencia}
+                    maxLength={10}
+                    required
+                  />
+                  
+                  {/* Dynamic Select from API */}
+                  <div className="flex flex-col space-y-1.5">
+                    <label htmlFor="obraSocial" className="text-sm font-medium text-gray-700 ml-1">
+                      Obra social
+                    </label>
+                    <select
+                      id="obraSocial"
+                      name="obraSocial"
+                      value={formData.obraSocial}
+                      onChange={handleChange}
+                      className="
+                        w-full px-4 py-2.5 
+                        border border-gray-300 
+                        rounded-full 
+                        text-gray-700 
+                        bg-white
+                        focus:outline-none focus:ring-2 focus:ring-[#66a5ad] focus:border-transparent
+                        transition-all duration-200
+                      "
+                      required
+                      disabled={loading}
+                    >
+                      <option value="" disabled>
+                        {loading ? 'Cargando obras sociales...' : 'Seleccionar...'}
+                      </option>
+                      {obrasSociales.map((obra) => (
+                        <option key={obra.id} value={obra.id}>
+                          {obra.nombre}
+                        </option>
+                      ))}
+                    </select>
+                    {loading && (
+                      <p className="text-xs text-gray-500 ml-1">Cargando opciones...</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Footer Link */}
+                <div className="pt-1">
+                  <p className="text-sm text-gray-600">
+                    Ya tengo cuenta <a href="../login/index.html" className="text-blue-500 hover:underline font-medium">Iniciar sesión</a>
+                  </p>
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={submitting || loading}
+                  className="w-full bg-[#66a5ad] hover:bg-[#538a91] disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-3 px-4 rounded-full shadow-md transition-colors duration-200 mt-4"
+                >
+                  {submitting ? 'Registrando...' : 'Continuar'}
+                </button>
+              </form>
+            </div>
+
+            {/* Right Section - Illustration */}
+            <div className="hidden lg:flex w-[50%] xl:w-[55%] bg-[#bfdce3] relative items-center justify-center p-12 overflow-hidden">
+              {/* Decorative Background Circles */}
+              <div className="absolute top-10 right-20 w-32 h-32 bg-white/30 rounded-full blur-xl"></div>
+              <div className="absolute bottom-20 left-20 w-64 h-64 bg-blue-200/40 rounded-full blur-2xl"></div>
+              
+              {/* Content Container */}
+              <div className="relative z-10 max-w-2xl w-full flex flex-col items-center">
+                 <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl bg-white/40 backdrop-blur-sm border border-white/50 p-4 flex items-center justify-center">
+                    <img 
+                      src="https://picsum.photos/800/600" 
+                      alt="Medical Illustration Placeholder" 
+                      className="rounded-xl w-full h-full object-cover opacity-90 mix-blend-overlay"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-white/90 p-8 rounded-2xl shadow-lg max-w-xs text-center">
+                           <div className="w-16 h-16 bg-[#66a5ad] rounded-full mx-auto mb-4 flex items-center justify-center">
+                              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                              </svg>
+                           </div>
+                           <h3 className="text-[#66a5ad] font-bold text-lg">Gestión de Salud</h3>
+                           <p className="text-gray-500 text-sm mt-2">Administra tus turnos y datos clínicos de manera segura.</p>
+                        </div>
+                    </div>
+                 </div>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      // Render
+      const root = ReactDOM.createRoot(document.getElementById('root'));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

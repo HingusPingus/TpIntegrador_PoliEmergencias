@@ -27,8 +27,8 @@
                 <span class="text-xl font-bold text-gray-700">PoliEmergencias</span>
             </div>
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#" class="text-sm text-gray-500 hover:text-[#3a5f6a] transition-colors font-medium">COVID-19</a>
-                <a href="#" class="text-sm text-gray-500 hover:text-[#3a5f6a] transition-colors font-medium">Obra Social</a>
+                <a href="../login/index.html" class="text-sm text-gray-500 hover:text-[#3a5f6a] transition-colors font-medium">Iniciar Sesion</a>
+                <a href="../registrar/index.html" class="text-sm text-gray-500 hover:text-[#3a5f6a] transition-colors font-medium">Registrarse</a>
                 <a href="#" class="text-sm text-gray-500 hover:text-[#3a5f6a] transition-colors font-medium">Mi Portal</a>
                 <a href="#" class="text-sm text-gray-500 hover:text-[#3a5f6a] transition-colors font-medium">Profesionales</a>
             </nav>
@@ -39,8 +39,8 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white shadow-md">
             <nav class="flex flex-col p-4 space-y-2">
-                <a href="#" class="text-gray-600 hover:text-[#3a5f6a] p-2 rounded">COVID-19</a>
-                <a href="#" class="text-gray-600 hover:text-[#3a5f6a] p-2 rounded">Obra Social</a>
+                <a href="../login/index.html" class="text-gray-600 hover:text-[#3a5f6a] p-2 rounded">Iniciar Sesion</a>
+                <a href="../registrar/index.html" class="text-gray-600 hover:text-[#3a5f6a] p-2 rounded">Registrarse</a>
                 <a href="#" class="text-gray-600 hover:text-[#3a5f6a] p-2 rounded">Mi Portal</a>
                 <a href="#" class="text-gray-600 hover:text-[#3a5f6a] p-2 rounded">Profesionales</a>
             </nav>
@@ -105,7 +105,7 @@
                     <div class="bg-[#63a5aa] p-8 md:p-12 text-white flex flex-col items-start">
                         <h2 class="text-3xl font-bold mb-4">Mis turnos</h2>
                         <p class="mb-8 max-w-sm">Gestioná tus turnos médicos fácilmente. Accedé rápido desde cualquier dispositivo.</p>
-                        <button class="bg-white text-[#63a5aa] font-semibold py-2 px-8 rounded-full hover:bg-gray-100 transition-colors mt-auto">
+                        <button onclick="location.href='../perfil/index.html'"class="bg-white text-[#63a5aa] font-semibold py-2 px-8 rounded-full hover:bg-gray-100 transition-colors mt-auto">
                             Ir
                         </button>
                     </div>
@@ -366,5 +366,7 @@
         });
     </script>
 <script type="module" src="/index.tsx"></script>
+<script  src="script.js"></script>
+
 </body>
 </html>
